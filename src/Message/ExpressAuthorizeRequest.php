@@ -56,6 +56,7 @@ class ExpressAuthorizeRequest extends AbstractRequest
         $callback = $this->getCallback();
         if (!empty($callback)) {
             $data['CALLBACK'] = $callback;
+            $data['CALLBACKTIMEOUT'] = 5; //@todo pass this in and set a sensible default
         }
 
         $card = $this->getCard();
