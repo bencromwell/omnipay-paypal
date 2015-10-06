@@ -7,6 +7,17 @@ namespace Omnipay\PayPal\Message;
  */
 class ExpressAuthorizeRequest extends AbstractRequest
 {
+
+    public function setCallback($callback)
+    {
+        return $this->setParameter('callback', $callback);
+    }
+
+    public function getCallback()
+    {
+        return $this->getParameter('callback');
+    }
+
     public function getData()
     {
         $this->validate('amount', 'returnUrl', 'cancelUrl');
@@ -41,6 +52,11 @@ class ExpressAuthorizeRequest extends AbstractRequest
         $data['PAYMENTREQUEST_0_SHIPDISCAMT'] = $this->getShippingDiscount();
         $data['PAYMENTREQUEST_0_INSURANCEAMT'] = $this->getInsuranceAmount();
         $data['PAYMENTREQUEST_0_SELLERPAYPALACCOUNTID'] = $this->getSellerPaypalAccountId();
+        
+        $callback = $this->getCallback();
+        if (!empty($callback)) {
+            $data['CALLBACK'] = $callback;
+        }
 
         $card = $this->getCard();
         if ($card) {
